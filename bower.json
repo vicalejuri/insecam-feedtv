@@ -8,6 +8,7 @@
     "tests"
   ],
   "dependencies": {
-    "phaser": "~2.2.2"
+    "phaser": "~2.2.2",
+    "lodash": "~2.4.1"
   }
 }
