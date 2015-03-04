@@ -1,0 +1,12 @@
+{
+  "name": "angular-skeleton",
+  "description": "Angular Skeleton",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mstewart/angular-skeleton",
+  "private": false,
+  "devDependencies": {
+  },
+  "scripts": {
+    "postinstall": "bower install; bower update",
+  }
+}
