@@ -7,14 +7,12 @@ module.exports = function(grunt) {
 
   // Configure variables for use across grunt tasks
   var config = {
-    host: 'localhost',
-    autoOpen: true,
-    files: {
-      scripts: ['coffee/**/*.coffee'],
-    },
     dirs: {
       app: 'app',
       dev: '.dev'
+    },
+    files: {
+      scripts: ['<%= config.dirs.app %>/**/*.coffee'],
     }
   };
 
@@ -39,17 +37,18 @@ module.exports = function(grunt) {
       }
     },
 
-    // Connect task   - Serve site
+    // Connect task   
+    // Connect:livereload - Serve site on port 9000
     connect: {
       options: {
         port: 9000,
-        hostname: config.host, // Change this to '0.0.0.0' to access the server from outside.
+        hostname: 'localhost', // Change this to '0.0.0.0' to access the server from outside.
         livereload: 35729
       },
 
       livereload: {
         options: {
-          open: config.autoOpen, // open page in default browser
+          open: true, // open page in default browser
           middleware: function (connect) {
             return [
               connect.static(config.dirs.dev),
@@ -61,8 +60,9 @@ module.exports = function(grunt) {
     },
 
     // Watch tasks      - Watch for changes in specified directories, and re-run specified task(s)
-    // watch:coffee     - 
-    // watch:wiredep    -
+    // watch:coffee     - Watch coffeescript files, re-compile coffeescripts
+    // watch:wiredep    - Watch bower.json for new bower_components, and inject new dependencies
+    // watch:livereload - Trigger livereload on update of html or scripts 
     watch: {
       options: {
         livereload: true,
@@ -73,6 +73,16 @@ module.exports = function(grunt) {
         tasks: ['coffee:dev']
       },
 
+      livereload: {
+        options: {
+          livereload: '<%= connect.options.livereload %>',
+        },
+        files: [
+          '<%= config.dirs.app %>/**/*.html',
+          '<%= config.dirs.dev %>/**/*.js'
+        ]
+      },
+
       wiredep: {
         files: ['bower.json'],
         tasks: ['wiredep:dev']
@@ -80,9 +90,10 @@ module.exports = function(grunt) {
     },
 
     // Wiredep tasks    - Inject bower dependencies automatically into source code
+    // wiredep:dev      - Injects bower dependencies into html pages
     wiredep: {
       dev: {
-        src: ['index.html']
+        src: ['<%= config.dirs.app %>/index.html']
       }
     }
 
@@ -94,6 +105,7 @@ module.exports = function(grunt) {
     'clean:dev',
     'coffee:dev',
     'wiredep:dev',
+    'connect:livereload',
     'watch'
    ]);
   });
