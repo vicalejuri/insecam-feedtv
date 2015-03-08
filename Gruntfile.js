@@ -38,7 +38,7 @@ module.exports = function(grunt) {
     },
 
     // Connect task   
-    // Connect:livereload - Serve site on port 9000
+    // connect:livereload - Serve site on port 9000
     connect: {
       options: {
         port: 9000,
