@@ -30,7 +30,7 @@ sudo npm install -g grunt-cli
 
 ### Install Project Specific Dependencies
 
-This project has two kinds of dependencies in this project: tools and libraries.
+This project has two kinds of dependencies: tools and libraries.
 
 Tools:
 
@@ -40,9 +40,9 @@ Tools:
 
 Libraries:
 
+*  are the client-side dependencies which actually get shipped with the app.
 *  are specified in `bower.json`.
 *  are installed via `bower`, a client-side code package manager.
-*  include angular, and any other libraries needed.
 
 In this project, `npm install` has been configured to automatically run `bower install`, so we can simply run:
 
