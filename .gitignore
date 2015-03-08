@@ -2,5 +2,6 @@
 /app/bower_components/
 /node_modules/
 /.dev/
+/.test/
 /build/
 .DS_Store
