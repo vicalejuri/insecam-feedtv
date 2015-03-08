@@ -175,6 +175,8 @@ module.exports = function(grunt) {
     grunt.task.run([
       'npm-install',
       'prepare:test',
+      'clean:dev',
+      'coffee:dev',
       'karma:single'
     ]);
   });
