@@ -9,10 +9,17 @@ module.exports = function(grunt) {
   var config = {
     dirs: {
       app: 'app',
-      dev: '.dev'
+      dev: '.dev',
+      test: '.test'
     },
     files: {
-      scripts: ['<%= config.dirs.app %>/**/*.coffee'],
+      scripts: [
+        '<%= config.dirs.app %>/**/*.coffee',
+        '!<%= config.dirs.app %>/**/*.spec.coffee'
+      ],
+      tests: [
+        '<%= config.dirs.app %>/**/*.spec.coffee',
+      ]
     }
   };
 
@@ -24,7 +31,8 @@ module.exports = function(grunt) {
     // Clean tasks    - For erasing contents of specified directories
     // clean:dev      - Clean temporary directory created for holding compiled files during development
     clean: {
-      dev: [config.dirs.dev]
+      dev: [config.dirs.dev],
+      test: [config.dirs.test]
     },
 
     // Coffee tasks   - Coffeescript compilation
@@ -33,6 +41,25 @@ module.exports = function(grunt) {
       dev: {
         files: {
           '<%= config.dirs.dev %>/main.js': config.files.scripts 
+        }
+      },
+      test: {
+        files: {
+          '<%= config.dirs.test %>/spec.js': config.files.tests 
+        }
+      }
+    },
+
+    // Concurrent tasks   - Allow tasks to be run concurrently
+    // concurrent:test    - Allow unit-tests and watch task to be run silmultaneously
+    concurrent: {
+      test: {
+        tasks: [
+          'karma:concurrent',
+          'watch'
+        ],
+        options: {
+          logConcurrentOutput: true
         }
       }
     },
@@ -56,6 +83,23 @@ module.exports = function(grunt) {
             ];
           }
         }
+      }
+    },
+
+    // Karma - test runner 
+    // karma:concurrent   - Run test in the background
+    // karma:single       - Run tests once 
+    karma: {
+      options: {
+        configFile: 'karma.conf.js',
+      },
+      // Keep tests running in the background
+      concurrent: {
+        singleRun: false 
+      },
+      // Run tests once
+      single: {
+        singleRun: true
       }
     },
 
@@ -90,25 +134,72 @@ module.exports = function(grunt) {
     },
 
     // Wiredep tasks    - Inject bower dependencies automatically into source code
-    // wiredep:dev      - Injects bower dependencies into html pages
+    // wiredep:dev      - Inject bower dependencies into html pages
+    // wiredep:test     - Inject bower dependencies into karma config
     wiredep: {
       dev: {
         src: ['<%= config.dirs.app %>/index.html']
+      },
+
+      test:{
+        src: 'karma.conf.js',
+        fileTypes: {
+          js: {
+            block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+            detect: {
+              js: /'(.*\.js)'/gi
+            },
+            replace: {
+              js: '\'{{filePath}}\','
+            }
+          }
+        }
       }
     }
 
   });
 
-  grunt.registerTask('serve', 'Compile, serve, optionally run tests', function(){
-   grunt.task.run([
-    'npm-install',
-    'clean:dev',
-    'coffee:dev',
-    'wiredep:dev',
-    'connect:livereload',
-    'watch'
-   ]);
+  // Custom tasks
+
+  // prepare:test   - Complete various tasks required for running unit tests
+  grunt.registerTask('prepare:test', 'Prepare to run unit tests', function(){
+    grunt.task.run([
+      'clean:test',
+      'coffee:test',
+      'wiredep:test',
+    ]);
   });
 
+  // test     - Run a single run of unit tests
+  grunt.registerTask('test', 'Run unit tests', function(){
+    grunt.task.run([
+      'npm-install',
+      'prepare:test',
+      'karma:single'
+    ]);
+  });
+
+  // serve          - Compile site assets, serve site
+  // serve --test   - Compile site assets, serve site, run unit tests concurrently
+  grunt.registerTask('serve', 'Compile, serve, optionally run tests', function(){
+    grunt.task.run([
+      'npm-install',
+      'clean:dev',
+      'coffee:dev',
+      'wiredep:dev',
+      'connect:livereload'
+    ]);
+
+    if(grunt.option('test')){
+      grunt.task.run([
+        'prepare:test',
+        'concurrent:test'
+      ]);
+    } else {
+      grunt.task.run(['watch']);
+    }
+  });
+
+  // default task   - run by grunt when no task is specified
   grunt.registerTask('default', 'serve');
 };
