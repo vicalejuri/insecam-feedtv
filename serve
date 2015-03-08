@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-trap 'kill 0' SIGINT SIGTERM EXIT
-
-(while true; do coffee -cw -o build/ coffee/; done) &
-
-python -m SimpleHTTPServer
