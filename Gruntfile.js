@@ -139,7 +139,7 @@ module.exports = function(grunt) {
         src: 'karma.conf.js',
         fileTypes: {
           js: {
-            block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+            block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi, // Wire dependencies between '// bower:extension' and '// endbower'
             detect: {
               js: /'(.*\.js)'/gi
             },
