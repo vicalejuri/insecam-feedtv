@@ -1,3 +1,6 @@
 /bower_components/
-.DS_Store
+/app/bower_components/
+/node_modules/
+/.dev/
 /build/
+.DS_Store
