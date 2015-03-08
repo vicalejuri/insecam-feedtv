@@ -9,7 +9,7 @@ module.exports = function(grunt) {
   var config = {
     dirs: {
       app: 'app',
-      dev: '.dev',
+      dev: '.dev'
     },
     files: {
       scripts: [
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
         '!<%= config.dirs.app %>/**/*.spec.coffee'
       ],
       tests: [
-        '<%= config.dirs.app %>/**/*.spec.coffee',
+        '<%= config.dirs.app %>/**/*.spec.coffee'
       ]
     }
   };
@@ -85,7 +85,7 @@ module.exports = function(grunt) {
     // karma:single       - Run tests once 
     karma: {
       options: {
-        configFile: 'karma.conf.js',
+        configFile: 'karma.conf.js'
       },
       // Keep tests running in the background
       concurrent: {
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
     // watch:livereload - Trigger livereload on update of html or scripts 
     watch: {
       options: {
-        livereload: true,
+        livereload: true
       },
 
       coffee: {
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
 
       livereload: {
         options: {
-          livereload: '<%= connect.options.livereload %>',
+          livereload: '<%= connect.options.livereload %>'
         },
         files: [
           '<%= config.dirs.app %>/**/*.html',
