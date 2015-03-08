@@ -68,11 +68,6 @@ Unit tests are written in [Jasmine 2.0](http://jasmine.github.io/), and run with
 * Unit tests are to be named as follows: `*.spec.coffee`
 
 
-#### Dependencies
-
-To use the latest version of karma, you may encounter issues if the karma client is not installed globally, `sudo npm install -g karma-cli`. Running `npm install` will set up all other packages needed for unit-testing. 
-
-
 
 ## Grunt tasks
 
