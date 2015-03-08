@@ -45,7 +45,7 @@ module.exports = function(grunt) {
     },
 
     // Concurrent tasks   - Allow tasks to be run concurrently
-    // concurrent:test    - Allow unit-tests and watch task to be run silmultaneously
+    // concurrent:test    - Allow unit-tests and watch task to be run simultaneously
     concurrent: {
       test: {
         tasks: [
