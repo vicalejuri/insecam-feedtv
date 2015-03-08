@@ -74,7 +74,7 @@ To use the latest version of karma, you may encounter issues if the karma client
 
 
 
-## Project's Grunt tasks
+## Grunt tasks
 
 
 ### grunt serve
