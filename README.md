@@ -93,3 +93,5 @@ Command: `grunt --test` or `grunt serve --test`
 ### grunt test
 
 This task runs a single run of unit tests, and outputs the result to the console.
+
+Command: `grunt test`
