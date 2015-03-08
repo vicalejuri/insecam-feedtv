@@ -3,6 +3,7 @@ module.exports = function(config){
 
     basePath : './',
 
+    // List of files/patterns to load in the browser
     files : [
       // bower:js
       'app/bower_components/lodash/lodash.js',
@@ -12,6 +13,7 @@ module.exports = function(config){
       '.test/spec.js'
     ],
 
+    // Enable watching files and executing the tests whenever one of the above files changes
     autoWatch : true,
 
     frameworks: [
@@ -19,6 +21,7 @@ module.exports = function(config){
       'jasmine-matchers'
     ],
 
+    // List of browsers to launch and capture
     browsers : ['Chrome'],
 
     plugins : [
@@ -26,26 +29,20 @@ module.exports = function(config){
       'karma-firefox-launcher',
       'karma-jasmine',
       'karma-jasmine-matchers',
-      'karma-junit-reporter',
       'karma-jasmine-html-reporter',
       'karma-mocha-reporter'
     ],
 
+    // List of reporters to use
     reporters: [
       'html',
       'mocha'
     ],
 
-    junitReporter : {
-      outputFile: 'test_out/unit.xml',
-      suite: 'unit'
-    },
-
-
+    // Preprocessors to use
     preprocessors: {
       'app/**/*.html' : 'html2js'
     }
-
 
   });
 };
