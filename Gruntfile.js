@@ -10,7 +10,6 @@ module.exports = function(grunt) {
     dirs: {
       app: 'app',
       dev: '.dev',
-      test: '.test'
     },
     files: {
       scripts: [
@@ -41,11 +40,6 @@ module.exports = function(grunt) {
       dev: {
         files: {
           '<%= config.dirs.dev %>/main.js': config.files.scripts 
-        }
-      },
-      test: {
-        files: {
-          '<%= config.dirs.test %>/spec.js': config.files.tests 
         }
       }
     },
@@ -161,20 +155,11 @@ module.exports = function(grunt) {
 
   // Custom tasks
 
-  // prepare:test   - Complete various tasks required for running unit tests
-  grunt.registerTask('prepare:test', 'Prepare to run unit tests', function(){
-    grunt.task.run([
-      'clean:test',
-      'coffee:test',
-      'wiredep:test',
-    ]);
-  });
-
   // test     - Run a single run of unit tests
   grunt.registerTask('test', 'Run unit tests', function(){
     grunt.task.run([
       'npm-install',
-      'prepare:test',
+      'wiredep:test',
       'clean:dev',
       'coffee:dev',
       'karma:single'
@@ -194,7 +179,7 @@ module.exports = function(grunt) {
 
     if(grunt.option('test')){
       grunt.task.run([
-        'prepare:test',
+        'wiredep:test',
         'concurrent:test'
       ]);
     } else {

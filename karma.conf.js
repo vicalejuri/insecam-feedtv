@@ -10,7 +10,7 @@ module.exports = function(config){
       'app/bower_components/angularjs/angular.js',
       // endbower
       '.dev/main.js',
-      '.test/spec.js'
+      'app/**.spec.coffee',
     ],
 
     // Enable watching files and executing the tests whenever one of the above files changes
@@ -30,7 +30,9 @@ module.exports = function(config){
       'karma-jasmine',
       'karma-jasmine-matchers',
       'karma-jasmine-html-reporter',
-      'karma-mocha-reporter'
+      'karma-mocha-reporter',
+      'karma-coffee-preprocessor',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // List of reporters to use
@@ -41,7 +43,21 @@ module.exports = function(config){
 
     // Preprocessors to use
     preprocessors: {
-      'app/**/*.html' : 'html2js'
+      'app/**/*.html' : 'html2js',
+      'app/**/*.spec.coffee': 'coffee'
+    },
+
+    // Coffeescript preprocessor config
+    coffeePreprocessor: {
+      // options passed to the coffee compiler
+      options: {
+        bare: true,
+        sourceMap: false
+      },
+      // transforming the filenames
+      transformPath: function(path) {
+        return path.replace(/\.coffee$/, '.js');
+      }
     }
 
   });
