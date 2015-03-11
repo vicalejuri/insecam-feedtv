@@ -13,8 +13,7 @@ module.exports = function(grunt) {
     },
     files: {
       scripts: [
-        '<%= config.dirs.app %>/**/*.coffee',
-        '!<%= config.dirs.app %>/**/*.spec.coffee'
+        '<%= config.dirs.app %>/main.coffee',
       ],
       tests: [
         '<%= config.dirs.app %>/**/*.spec.coffee'
@@ -26,7 +25,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     config: config,
-    
+
     // Clean tasks    - For erasing contents of specified directories
     // clean:dev      - Clean temporary directory created for holding compiled files during development
     clean: {
@@ -39,7 +38,7 @@ module.exports = function(grunt) {
     coffee: {
       dev: {
         files: {
-          '<%= config.dirs.dev %>/main.js': config.files.scripts 
+          '<%= config.dirs.dev %>/main.js': config.files.scripts
         }
       }
     },
@@ -58,7 +57,7 @@ module.exports = function(grunt) {
       }
     },
 
-    // Connect task   
+    // Connect task
     // connect:livereload - Serve site on port 9000
     connect: {
       options: {
@@ -80,16 +79,16 @@ module.exports = function(grunt) {
       }
     },
 
-    // Karma - test runner 
+    // Karma - test runner
     // karma:concurrent   - Run test in the background
-    // karma:single       - Run tests once 
+    // karma:single       - Run tests once
     karma: {
       options: {
         configFile: 'karma.conf.js'
       },
       // Keep tests running in the background
       concurrent: {
-        singleRun: false 
+        singleRun: false
       },
       // Run tests once
       single: {
@@ -100,7 +99,7 @@ module.exports = function(grunt) {
     // Watch tasks      - Watch for changes in specified directories, and re-run specified task(s)
     // watch:coffee     - Watch coffeescript files, re-compile coffeescripts
     // watch:wiredep    - Watch bower.json for new bower_components, and inject new dependencies
-    // watch:livereload - Trigger livereload on update of html or scripts 
+    // watch:livereload - Trigger livereload on update of html or scripts
     watch: {
       options: {
         livereload: true
