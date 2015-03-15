@@ -154,10 +154,16 @@ module.exports = function(grunt) {
 
   // Custom tasks
 
-  // test     - Run a single run of unit tests
+  // test                     - Run a single run of unit tests
+  //    [--no-install-deps]   - Skip dependency installation.
   grunt.registerTask('test', 'Run unit tests', function(){
+    if(! grunt.option('no-install-deps')){
+      grunt.task.run([
+        'npm-install',
+      ]);
+    }
+
     grunt.task.run([
-      'npm-install',
       'wiredep:test',
       'clean:dev',
       'coffee:dev',
@@ -166,10 +172,16 @@ module.exports = function(grunt) {
   });
 
   // serve          - Compile site assets, serve site
-  // serve --test   - Compile site assets, serve site, run unit tests concurrently
+  //    [--test]              - run unit tests concurrently
+  //    [--no-install-deps]   - Skip dependency installation.
   grunt.registerTask('serve', 'Compile, serve, optionally run tests', function(){
+    if(! grunt.option('no-install-deps')){
+      grunt.task.run([
+        'npm-install',
+      ]);
+    }
+
     grunt.task.run([
-      'npm-install',
       'clean:dev',
       'coffee:dev',
       'wiredep:dev',
