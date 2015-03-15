@@ -9,8 +9,9 @@ module.exports = function(config){
       'app/bower_components/lodash/lodash.js',
       'app/bower_components/angular/angular.js',
       // endbower
+      'node_modules/angular-mocks/angular-mocks.js',
       '.dev/main.js',
-      'app/**.spec.coffee',
+      'app/**/*.spec.coffee',
     ],
 
     // Enable watching files and executing the tests whenever one of the above files changes
