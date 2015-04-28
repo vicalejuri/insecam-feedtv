@@ -96,8 +96,23 @@ module.exports = function(grunt) {
       }
     },
 
+    // Sass tasks    - SCSS and SASS compilation
+    // sass:dev      - Compile .scss and .sass files to temporary directory during development
+    sass: {
+      dev: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.dirs.app %>/styles',
+          src: ['**/*.{scss,sass}'],
+          dest: '<%= config.dirs.dev %>/styles',
+          ext: '.css'
+        }]
+      }
+    },
+
     // Watch tasks      - Watch for changes in specified directories, and re-run specified task(s)
     // watch:coffee     - Watch coffeescript files, re-compile coffeescripts
+    // watch:sass       - Watch .scss and .sass files, re-compile on change
     // watch:wiredep    - Watch bower.json for new bower_components, and inject new dependencies
     // watch:livereload - Trigger livereload on update of html or scripts
     watch: {
@@ -118,6 +133,13 @@ module.exports = function(grunt) {
           '<%= config.dirs.app %>/**/*.html',
           '<%= config.dirs.dev %>/**/*.js'
         ]
+      },
+
+      sass: {
+        files: [
+          '<%= config.dirs.app %>/styles/**/*.{scss,sass}'
+        ],
+        tasks: ['sass']
       },
 
       wiredep: {
@@ -184,6 +206,7 @@ module.exports = function(grunt) {
     grunt.task.run([
       'clean:dev',
       'coffee:dev',
+      'sass:dev',
       'wiredep:dev',
       'connect:livereload'
     ]);
