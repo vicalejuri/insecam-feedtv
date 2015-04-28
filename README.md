@@ -28,6 +28,16 @@ To use the `grunt-cli`, it must be installed globally.
 sudo npm install -g grunt-cli
 ```
 
+
+### Install SASS Ruby Gem
+
+This gem is required for compilation of SCSS and SASS to CSS. Before installing the gem, ensure Ruby and Ruby's Gem package manager are installed. Then, install the SASS gem: 
+
+```
+sudo gem install sass
+```
+
+
 ### Install Project Specific Dependencies
 
 This project has two kinds of dependencies: tools and libraries.
