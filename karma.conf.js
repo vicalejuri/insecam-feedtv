@@ -7,9 +7,7 @@ module.exports = function(config){
     files : [
       // bower:js
       'app/bower_components/lodash/lodash.js',
-      'app/bower_components/angular/angular.js',
       // endbower
-      'node_modules/angular-mocks/angular-mocks.js',
       '.dev/main.js',
       'app/**/*.spec.coffee',
     ],

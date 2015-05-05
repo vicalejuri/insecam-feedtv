@@ -1,6 +1,6 @@
-# Angular Skeleton
+# Coffeescript Skeleton
 
-A skeleton for creating angularjs applications.
+A skeleton for creating web applications in Coffeescript (and SCSS).
 
 
 ## Installing dependencies
