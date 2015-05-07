@@ -1,4 +1,4 @@
-# Coffeescript Skeleton
+# Coffeescript App Skeleton
 
 A skeleton for creating web applications in Coffeescript (and SCSS).
 
