@@ -30,7 +30,6 @@ module.exports = function(grunt) {
     // clean:dev      - Clean temporary directory created for holding compiled files during development
     clean: {
       dev: [config.dirs.dev],
-      test: [config.dirs.test]
     },
 
     // Coffee tasks   - Coffeescript compilation

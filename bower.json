@@ -8,6 +8,6 @@
     "tests"
   ],
   "dependencies": {
-    "lodash": "~3.3.x",
+    "lodash": "~3.3.x"
   }
 }
