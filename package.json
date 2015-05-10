@@ -21,6 +21,7 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-filerev": "^2.3.1",
+    "grunt-gh-pages": "^0.10.0",
     "grunt-karma": "~0.10.1",
     "grunt-npm-install": "~0.2.0",
     "grunt-usemin": "^3.0.0",
