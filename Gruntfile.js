@@ -164,20 +164,6 @@ module.exports = function(grunt) {
       }
     },
 
-    // ngAnnotate tasks   - tries to make the code safe for minification automatically
-    //                      by using the Angular long form for dependency injection.
-    // ngAnnotate:build   - ngAnnotate .js files during build
-    ngAnnotate: {
-      build: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.dirs.dev %>/concat/scripts',
-          src: ['*.js'],
-          dest: '<%= config.dirs.dev %>/concat/scripts'
-        }]
-      }
-    },
-
     // Sass tasks    - SCSS and SASS compilation
     // sass:dev      - Compile .scss and .sass files to temporary directory during development
     sass: {
@@ -325,7 +311,6 @@ module.exports = function(grunt) {
       'clean:build',
       'useminPrepare',
       'concat',
-      'ngAnnotate',
       'copy:build',
       'cssmin',
       'uglify',
