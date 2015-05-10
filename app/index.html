@@ -2,9 +2,14 @@
 
 <html>
   <head>
+    <!-- build:css(app) styles/vendor.min.css -->
     <!-- bower:css -->
     <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css(.dev) styles/main.min.css -->
     <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <!-- endbuild -->
   </head>
 
   <body>
@@ -12,10 +17,15 @@
       <h1>Hello!</h1>
       <p>Welcome to Coffeescript App Skeleton.</p>
     </div>
+
+    <!-- build:js(app) scripts/vendor.min.js -->
     <!-- bower:js -->
     <script src="bower_components/lodash/lodash.js"></script>
     <!-- endbower -->
+    <!-- endbuild -->
 
+    <!-- build:js(.dev) scripts/main.min.js -->
     <script type="text/javascript" src="main.js"></script>
+    <!-- endbuild -->
   </body>
 </html>
