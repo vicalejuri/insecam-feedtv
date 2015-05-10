@@ -127,6 +127,14 @@ module.exports = function(grunt) {
       }
     },
 
+    // gh-pages task    - Push build to the gh-pages branch.
+    'gh-pages': {
+      options: {
+        base: '<%= config.dirs.build %>',
+      },
+      src: ['**']
+    },
+
     // Htmlmin tasks    - Minify html files
     // htmlmin:build    - Minify html files during build process
     htmlmin: {
@@ -317,6 +325,13 @@ module.exports = function(grunt) {
       'filerev',
       'usemin',
       'htmlmin',
+    ]);
+  });
+
+  grunt.registerTask('deploy', 'Build app, deploy to gh-pages branch', function(){
+    grunt.task.run([
+      'build',
+      'gh-pages',
     ]);
   });
 
