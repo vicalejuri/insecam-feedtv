@@ -4,6 +4,7 @@
 /.dev/
 /build/
 /.sass-cache/
+/.grunt/
 .DS_Store
 *.swo
 *.swp
