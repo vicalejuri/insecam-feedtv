@@ -118,7 +118,7 @@ Command: `grunt build`
 
 If you do not wish to install npm and bower dependencies before building, an optional flag is available.
 
-Command: `grunt --no-install-deps`
+Command: `grunt build --no-install-deps`
 
 
 ### grunt deploy
@@ -127,6 +127,6 @@ Builds the app and deploys it to the `gh-pages` branch on Github.
 
 Command: `grunt deploy`
 
-If you do not wish to install npm and bower dependencies before building, an optional flag is available.
+If you do not wish to install npm and bower dependencies before deploying, an optional flag is available.
 
-Command: `grunt --no-install-deps`
+Command: `grunt deploy --no-install-deps`
