@@ -45,6 +45,7 @@ module.exports = function(grunt) {
 
     // Clean tasks    - For erasing contents of specified directories
     // clean:dev      - Clean temporary directory created for holding compiled files during development
+    // clean:build    - Clean build directory created for holding built files used for deployment
     clean: {
       dev: [config.dirs.dev],
       build: [config.dirs.build],
