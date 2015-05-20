@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     config: config,
 
     // Autoprefixer tasks   - add browser specific prefixes to css
-    // autoprefixer:build   - add browser specific prefixes to css in temporary .dev directory
+    // autoprefixer:dev     - add browser specific prefixes to css in temporary .dev directory
     autoprefixer: {
       options: {
         browsers: ['last 2 versions']
@@ -328,6 +328,7 @@ module.exports = function(grunt) {
     ]);
   });
 
+  // deploy                    - Build app, deploy to gh-pages branch on Github
   grunt.registerTask('deploy', 'Build app, deploy to gh-pages branch', function(){
     grunt.task.run([
       'build',
