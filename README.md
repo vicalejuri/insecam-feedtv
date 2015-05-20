@@ -31,7 +31,7 @@ sudo npm install -g grunt-cli
 
 ### Install SASS Ruby Gem
 
-This gem is required for compilation of `.scss` and `.sass` files to `.css`. Before installing the gem, ensure Ruby and Ruby's Gem package manager are installed. Then, install the `sass` gem: 
+This gem is required for compilation of `.scss` and `.sass` files to `.css`. Before installing the gem, ensure Ruby and Ruby's Gem package manager are installed. Then, install the `sass` gem:
 
 ```
 sudo gem install sass
@@ -88,11 +88,15 @@ This tasks compiles all of the application's assets and serves the application.
 
 This is the default grunt task.
 
-Command: `grunt` or `grunt serve`.
+Command: `grunt` or `grunt serve`
 
 This task also gives you the option of running unit tests and serving the application simultaneously. Tests will automatically re-run in response to changes in thesource code / specs.
 
 Command: `grunt --test` or `grunt serve --test`
+
+If you do not wish to install npm and bower dependencies before serving, an optional flag is available.
+
+Command: `grunt --no-install-deps`
 
 
 ### grunt test
@@ -100,3 +104,29 @@ Command: `grunt --test` or `grunt serve --test`
 This task runs a single run of unit tests, and outputs the result to the console.
 
 Command: `grunt test`
+
+If you do not wish to install npm and bower dependencies before running the tests, an optional flag is available.
+
+Command: `grunt test --no-install-deps`
+
+
+### grunt build
+
+This tasks compiles all of the application's assets and builds the app, ready for deployment.
+
+Command: `grunt build`
+
+If you do not wish to install npm and bower dependencies before building, an optional flag is available.
+
+Command: `grunt --no-install-deps`
+
+
+### grunt deploy
+
+Builds the app and deploys it to the `gh-pages` branch on Github.
+
+Command: `grunt deploy`
+
+If you do not wish to install npm and bower dependencies before building, an optional flag is available.
+
+Command: `grunt --no-install-deps`
