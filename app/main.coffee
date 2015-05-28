@@ -5,7 +5,7 @@ Settings = Settings ? {
             time_random: true
     },
     camfeed: {
-            url: '/assets/cameras.feed.json',
+            url: 'assets/cameras.feed.json',
             feeds: []
     }
 }
