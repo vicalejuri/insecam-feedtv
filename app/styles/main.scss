@@ -1,3 +1,77 @@
+$fg: #fff;
+$bg: #000;
+
+$font-stack: Helvetica, Verdana, sans-serif;
+$padding: 20px;
+
 body{
-  font-family: Verdana, sans-serif;
+  font-family: $font-stack;
+  background-color: $bg;
+  color: $fg;
+}
+
+img,
+embed,
+object,
+video {
+  max-width: 100%;
+}
+
+@mixin autocenter {
+    position: absolute;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.canvas-container {
+    overflow: hidden;
+    @include autocenter;
+
+    display: flex; /* or inline-flex */
+    justify-content: space-between;
+
+    max-height: 480px;
+}
+.clearbox {
+    clear: both;
+}
+
+
+/*
+ * feed is a container where the video feed is
+ */
+.feed-box {
+    width: 40%;
+    margin: auto;           // margin align center
+    text-align: center;
+
+    .feed-stream {
+        position: relative;
+        max-width: 100%;
+
+        width: 640px;
+        max-height: 480px;
+        min-height: 360px;
+
+        background: url(../assets/loading.gif) no-repeat center;
+
+        > img {
+            @include autocenter;
+        }
+    }
+}
+
+
+/*
+ * Cycle button
+ */
+#bt-cyclecameras {
+    position: absolute;
+    width: 240px;
+    height: 64px;
+    bottom: $padding;
+    margin: 0px auto;
+    z-index: 10;
+    left: calc( 50% - 240px/2 );
 }

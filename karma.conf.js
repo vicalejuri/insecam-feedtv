@@ -6,7 +6,10 @@ module.exports = function(config){
     // List of files/patterns to load in the browser
     files : [
       // bower:js
+      'app/bower_components/jquery/dist/jquery.js',
       'app/bower_components/lodash/lodash.js',
+      'app/bower_components/underscore/underscore.js',
+      'app/bower_components/backbone/backbone.js',
       // endbower
       '.dev/main.js',
       'app/**/*.spec.coffee',
