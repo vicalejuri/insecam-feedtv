@@ -4,6 +4,26 @@ $bg: #000;
 $font-stack: Helvetica, Verdana, sans-serif;
 $padding: 20px;
 
+/*
+ * FULLSCREEN
+ */
+html:-moz-full-screen {
+    background: $bg;
+}
+
+html:-webkit-full-screen {
+    background: $bg;
+}
+
+html:-ms-fullscreen {
+    background: $bg;
+    width: 100%; /* needed to center contents in IE */
+}
+
+html:fullscreen {
+    background: $bg;
+}
+
 body{
   font-family: $font-stack;
   background-color: $bg;
@@ -54,7 +74,9 @@ video {
         max-height: 480px;
         min-height: 360px;
 
+        /*
         background: url(../assets/loading.gif) no-repeat center;
+        */
 
         > img {
             @include autocenter;
@@ -67,6 +89,16 @@ video {
  * Cycle button
  */
 #bt-cyclecameras {
+    position: absolute;
+    width: 240px;
+    height: 64px;
+    bottom: $padding;
+    margin: 0px auto;
+    z-index: 10;
+    left: calc( 50% - 240px/2 );
+}
+
+#bt-fullscreen {
     position: absolute;
     width: 240px;
     height: 64px;

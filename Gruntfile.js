@@ -110,6 +110,7 @@ module.exports = function(grunt) {
             src: [
               '*.html',
               '*/**/*.html',
+              'assets/**/*',
               '!bower_components/**/*.html',
             ]
           }
