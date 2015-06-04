@@ -1,3 +1,11 @@
+# TODO:
+#  on Img Error: cyclePhoto
+#  add fx overlay on each photo (ISO/FPS)
+#  Remove cursor
+#  Make fullscreen default
+#  add fx on change
+
+
 toggleFullscreen = ->
     console.log("togglefullscreen")
 
@@ -25,10 +33,11 @@ toggleFullscreen = ->
             document.webkitExitFullscreen()
 
         $('#bt-fullscreen').show()
-        
 
 
-
+window.cyclePhoto = (el) ->
+    console.log(el)
+    return;
 
 
 Settings = Settings ? {
@@ -73,9 +82,9 @@ class CameraFeeds extends Backbone.Collection
         # Use random with @historyWeight
         next_cam = chance.weighted( @models , @historyWeight )
 
-        # This cam now has 1/3 of chance of being randomly picked again
+        # This cam now has 1/4 of chance of being randomly picked again
         cam_idx  = @models.indexOf(next_cam)
-        @historyWeight[cam_idx] = @historyWeight[cam_idx]/3.0
+        @historyWeight[cam_idx] = @historyWeight[cam_idx]/4.0
 
         return next_cam
 
@@ -86,12 +95,13 @@ class Camera extends Backbone.View
         A single video camera. Knows how to display mjpeg streams,
         and also jpeg with autorefresh
     ###
-    tagName: 'section'
+    tagName:   'section'
     className: 'feed-box'
 
     template: _.template("""<div class="feed-stream">
-                            <img src="<%= uri %>" 
-                                caption="<%= city %>" >
+                            <img src="<%= uri %>"
+                                caption="<%= city %>" 
+                                onerror="cyclePhoto">
                             </div>"""),
 
     initialize: ->
@@ -106,8 +116,6 @@ class Camera extends Backbone.View
 
     render: =>
         $(@el).html( @template( @model.toJSON() ) )
-        $(@el,'img').off('error')
-        $(@el,'img').on @hidePhoto
         return @
 
     hidePhoto: =>
@@ -157,8 +165,22 @@ class AppBigBrother extends Backbone.View
         $(@el).append cam.render().el
 
     cycleCamera: (camera_idx=0) =>
+        # use ImagesLoaded
+        imgLoad.on( 'progress', onProgress )
+        imgLoad.on( 'always', onAlways )
+
         new_cam = CAMFEEDS.pickSemiRandom()
+
         @cameras[camera_idx].cycle( new_cam )
+
+        imgLoad = imagesLoaded( @el )
+
+    onProgress: =>
+        console.log("Progress loading...")
+
+    onAlways: =>
+        console.log("Finished loading images")
+
 
     render: ->
         $(@el).html()

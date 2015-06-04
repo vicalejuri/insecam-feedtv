@@ -78,8 +78,20 @@ video {
         background: url(../assets/loading.gif) no-repeat center;
         */
 
+        .is-loading img,
+        li.is-broken img {
+            opacity: 0;
+        }
+
         > img {
             @include autocenter;
+
+            -webkit-transition: opacity 0.4s;
+                -moz-transition: opacity 0.4s;
+                -ms-transition: opacity 0.4s;
+                    transition: opacity 0.4s;
+
+            -webkit-filter: grayscale(100%) brightness(100%) contrast(150%);
         }
     }
 }
