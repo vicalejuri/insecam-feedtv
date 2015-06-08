@@ -10,6 +10,10 @@
   "dependencies": {
     "lodash": "~3.3.x",
     "jquery": "latest",
-    "backbone": "latest"
+    "backbone": "latest",
+    "imagesloaded": "latest",
+    "chance": "latest",
+    "dat.gui": "*",
+    "mousetrap": "~1.5.2"
   }
 }

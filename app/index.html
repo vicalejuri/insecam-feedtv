@@ -15,7 +15,12 @@
   <body>
     <article id="cameralist" class="canvas-container">
     </article>
-        <button type="button" id="bt-fullscreen">FULLSCREEN</button>
+
+
+    <div id="overlay" class="overlay">
+        <button type="button" id="bt-start">START</button>
+    </div>
+
 
     <!-- build:js(app) scripts/vendor.min.js -->
     <!-- bower:js -->
@@ -23,6 +28,12 @@
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/backbone/backbone.js"></script>
+    <script src="bower_components/eventEmitter/EventEmitter.js"></script>
+    <script src="bower_components/eventie/eventie.js"></script>
+    <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+    <script src="bower_components/chance/chance.js"></script>
+    <script src="bower_components/dat.gui/dat.gui.js"></script>
+    <script src="bower_components/mousetrap/mousetrap.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

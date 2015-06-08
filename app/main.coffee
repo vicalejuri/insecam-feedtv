@@ -1,10 +1,16 @@
 # TODO:
-#  on Img Error: cyclePhoto
-#  add fx overlay on each photo (ISO/FPS)
-#  Remove cursor
-#  Make fullscreen default
-#  add fx on change
-
+#  on Img Error: cyclePhoto -OK
+#  Remove cursor - OK
+#  Make fullscreen default - OK
+#  add fx on change - OK
+#
+#  automatic refresh on non .mjpeg images - OK
+#  remove pictures with errors - OK
+#
+#  Add keyboard handle anykey on start.
+#   Remove it after, plz
+#
+ANIM_END = 'webkitAnimationEnd oanimationend msAnimationEnd animationend transitionend'
 
 toggleFullscreen = ->
     console.log("togglefullscreen")
@@ -35,31 +41,29 @@ toggleFullscreen = ->
         $('#bt-fullscreen').show()
 
 
-window.cyclePhoto = (el) ->
-    console.log(el)
-    return;
-
 
 Settings = Settings ? {
     el: '#cameralist',
+    css: {
+        blackwhite: false
+    }
     cycle: {
-            left_time: 15000,
-            left_start: 1000,
-            right_time: 15000,
-            right_start: 5000
+            interval: 15*1000,
+            offset: 7000
     },
     camfeed: {
             url: 'assets/cameras.feed.json',
-            feeds: []
+            feeds: [],
+            fps: 1/3.0
     }
 }
 
 
 class CameraStream extends Backbone.Model
     defaults:
-        uri:     'http://158.39.49.51:80/mjpg/video.mjpg'
-        country: 'Russia'
-        city:    'Megalopole'
+        uri:     'http://www.error.error/none.mjpeg'
+        country: 'None'
+        city:    'None'
 
 
 class CameraFeeds extends Backbone.Collection
@@ -69,7 +73,6 @@ class CameraFeeds extends Backbone.Collection
 
     add: (models, opts) ->
         @historyWeight.push 1
-        console.log("Opts, it twerked!")
         Backbone.Collection.prototype.add.call(@, models,opts)
         @trigger('added', models)
 
@@ -84,10 +87,16 @@ class CameraFeeds extends Backbone.Collection
 
         # This cam now has 1/4 of chance of being randomly picked again
         cam_idx  = @models.indexOf(next_cam)
-        @historyWeight[cam_idx] = @historyWeight[cam_idx]/4.0
+        curr_prob = @historyWeight[cam_idx]
+
+        @setRandomProbability(next_cam, curr_prob/4.0)
 
         return next_cam
 
+    setRandomProbability: ( cam , prob) ->
+        cam_idx = @models.indexOf(cam)
+        console.log("RANDOM: feed #{cam_idx}:#{cam.get('city')} = #{prob}%")
+        @historyWeight[cam_idx] = prob
 
 
 class Camera extends Backbone.View
@@ -97,33 +106,72 @@ class Camera extends Backbone.View
     ###
     tagName:   'section'
     className: 'feed-box'
+    refresh_handle: undefined
 
     template: _.template("""<div class="feed-stream">
-                            <img src="<%= uri %>"
-                                caption="<%= city %>" 
-                                onerror="cyclePhoto">
+                            <img 
+                                caption="<%= city %>" >
                             </div>"""),
 
-    initialize: ->
+    initialize: (@name) ->
         @model.bind 'add', @render
         @model.bind 'change', @render
-        @model.bind 'remove', @unrender
 
     cycle: (new_feed) =>
-        @model.set( 'uri', new_feed.get('uri') )
-        @model.set( 'city', new_feed.get('uri') )
+        @model.set( 'city', new_feed.get('city') )
         @model.set( 'country', new_feed.get('country') )
+        @model.set( 'uri', new_feed.get('uri') )
+
+    refreshImage: =>
+        uri = @model.get('uri')
+        epd = if uri.search('\\?') > 0 then '&fps=' else '?fps='
+        $('img',@el).attr('src', 
+            uri + epd + _.random(0,100))
+
+    autoRefresh: =>
+        return if @refresh_handle?
+        # Refresh if it's image and not a fucking .mjpg stream
+        if not @model.get('uri').endsWith('.mjpg')
+            @refresh_handle = setInterval( @refreshImage, 1000/ Settings.camfeed.fps )
+            console.log("refresh camera handle: #{@refresh_handle}")
+
+    preload: (new_feed, ok_cb, fail_cb) =>
+        $("<img/>")
+            .on('load', =>
+                ok_cb(@)
+            ).on('error', =>
+                fail_cb(@)
+            ).attr('src', new_feed.get('uri'))
 
     render: =>
+        clearInterval if @refresh_handle?
         $(@el).html( @template( @model.toJSON() ) )
+        $(@el).addClass('blackwhite') if(Settings.css.blackwhite)
+
+        # Load Ok, show image
+        $('img',@el).on('load', =>
+            @autoRefresh()
+            $('img',@el).addClass('visible')
+
+        # Ops, error on this image. Let's cycle
+        # And avoid showing it again!
+        ).on('error', =>
+            console.log("Failed loading #{@model.get('uri')}")
+            CAMFEEDS.setRandomProbability( @model, 0 );
+            @cycle(  CAMFEEDS.pickSemiRandom( ) )
+        ).attr('src', @model.get('uri'))
+
         return @
 
-    hidePhoto: =>
-        console.log("OPTS, ERROR")
-        $(this).hide()
+    hidePhoto: (cb) =>
+        $('img', @el).one(ANIM_END, (e) =>
+            $(this).hide();
+            cb()
+        ).removeClass('visible')
 
     unrender: =>
-        $(@el).remove()
+        if @refresh_handle?
+            clearInterval(@refresh_handle)
 
 
 
@@ -135,29 +183,31 @@ class AppBigBrother extends Backbone.View
     cameras: [],
     events: {
         'click #bt-cyclecameras': 'cycleCameras'
-    }
-    cycleHistory: []
+    },
+    started: false
 
     initialize: (@settings) ->
-        cam_one = CAMFEEDS.pickSemiRandom()
-        cam_two = CAMFEEDS.pickSemiRandom()
-        @appendCamera( cam_one  )
-        @appendCamera( cam_two )
+        @cam_one = CAMFEEDS.pickSemiRandom()
+        @cam_two = CAMFEEDS.pickSemiRandom()
 
+
+    start: =>
+        @appendCamera( @cam_one  )
+        @appendCamera( @cam_two )
         @render()
 
     setAutoCycle: =>
+        # Cycle camera 0
         setTimeout( =>
             setInterval( =>
                 @cycleCamera(0)
-            , Settings.cycle.left_time)
-        , Settings.cycle.left_start)
+            , Settings.cycle.interval)
+        , Settings.cycle.offset)
 
-        setTimeout( =>
-            setInterval( =>
-                @cycleCamera(1)
-            , Settings.cycle.right_time)
-        , Settings.cycle.right_start)
+        # Cycle camera 1
+        setInterval( =>
+            @cycleCamera(1)
+        , Settings.cycle.interval)
 
     appendCamera: (camera_stream) ->
         cam = new Camera model: camera_stream
@@ -165,30 +215,56 @@ class AppBigBrother extends Backbone.View
         $(@el).append cam.render().el
 
     cycleCamera: (camera_idx=0) =>
-        # use ImagesLoaded
-        imgLoad.on( 'progress', onProgress )
-        imgLoad.on( 'always', onAlways )
+        cam = @cameras[camera_idx]
+        cam_data = CAMFEEDS.pickSemiRandom()
 
-        new_cam = CAMFEEDS.pickSemiRandom()
+        console.group("cyclecamera","Cycling camera #{camera_idx} to #{cam_data.get('uri')}")
+        cam.preload( cam_data ,  =>
+                # OK
+                console.log("Feed #{cam_data.get('uri')} preloaded correctly. Hiding the current camera(#{camera_idx}), and showing the next")
+                cam.cycle(cam_data)
+                cam.hidePhoto( =>
+                    cam.cycle(cam_data)
+                    console.groupEnd("cyclecamera")
+                )
+            # FAIL
+            # Ops, error on this image. Let's cycle
+            # And avoid showing it again!
+            , =>
+                cam_idx = camera_idx
+                console.error( "Cam #{cam_idx}:" , cam.model.get('uri') , ' - ERROR')
 
-        @cameras[camera_idx].cycle( new_cam )
+                console.groupEnd("cyclecamera")
 
-        imgLoad = imagesLoaded( @el )
-
-    onProgress: =>
-        console.log("Progress loading...")
-
-    onAlways: =>
-        console.log("Finished loading images")
-
+                CAMFEEDS.setRandomProbability( cam.model, 0 )
+                window.app.cycleCamera(cam_idx)
+        )
 
     render: ->
         $(@el).html()
 
+start = ->
+    toggleFullscreen()
+    window.app.setAutoCycle()
+
+    $('body').addClass('nocursor');
+    $('#overlay').addClass('hidden');
+    window.app.started = true;
+
+SEC = (x) =>
+    x * Math.pow(x,3)
 
 window.CAMFEEDS=[]
 window.app = null
 jQuery ->
+
+    window.gui = gui = new dat.GUI();
+    gui.add(Settings.camfeed, 'fps', 1, 1/3.0);
+    gui.add(Settings.cycle, 'interval')
+    gui.add(Settings.cycle, 'offset')
+    gui.add(Settings.css, 'blackwhite')
+    $(gui.domElement).addClass('hidden')
+
     $.getJSON Settings.camfeed.url, (feeds) ->
         window.CAMFEEDS = new CameraFeeds
         _.each( feeds, (feed) =>
@@ -196,14 +272,17 @@ jQuery ->
             window.CAMFEEDS.add stream
         )
         window.app = new AppBigBrother( Settings )
+        window.app.start()
+    
+    Mousetrap.bind(['Command+,','P'], =>
+            $(gui.domElement).toggleClass('hidden')
+    )
+    Mousetrap.bind([' ','enter'], =>
+        start() if not (window.app.started)
+    )
+    Mousetrap.bind(['command+f'], =>
+        toggleFullscreen()
+        return false
+    )
 
-        # Or, hide them
-        ###
-        $(document).on('error', 'img', (e) ->
-            console.log("OPTS, ERROR")
-            $(this).hide()
-        )
-        ###
-
-        $('#bt-fullscreen').on 'click', toggleFullscreen
-        window.app.setAutoCycle()
+    $('#overlay').on 'click', start
