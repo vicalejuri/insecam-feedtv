@@ -249,6 +249,8 @@ start = ->
 
     $('body').addClass('nocursor');
     $('#overlay').addClass('hidden');
+    $(window.app.el).removeClass('blur').addClass('noblur')
+
     window.app.started = true;
 
 SEC = (x) =>
