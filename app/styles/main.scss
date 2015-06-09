@@ -66,7 +66,7 @@ video {
     display: flex; /* or inline-flex */
     justify-content: space-between;
 
-    max-height: 480px;
+    max-height: 720px;
 }
 
 .blur {
@@ -86,16 +86,16 @@ video {
  * feed is a container where the video feed is
  */
 .feed-box {
-    width: 40%;
+    width: 80%;
     margin: auto;           // margin align center
     text-align: center;
 
     .feed-stream {
         position: relative;
-        max-width: 100%;
+        max-width: 150%;
 
-        width: 640px;
-        max-height: 480px;
+        margin: auto;
+        max-height: 720px;
         min-height: 360px;
 
         .is-loading img,
@@ -104,6 +104,7 @@ video {
         }
 
         > img {
+            width: 100%;
             @include autocenter;
             @include transition;
             opacity: 0;

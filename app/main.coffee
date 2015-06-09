@@ -244,7 +244,7 @@ class AppBigBrother extends Backbone.View
         $(@el).html()
 
 start = ->
-    toggleFullscreen()
+    #toggleFullscreen()
     window.app.setAutoCycle()
 
     $('body').addClass('nocursor');
