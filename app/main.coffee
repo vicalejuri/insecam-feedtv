@@ -287,5 +287,4 @@ jQuery ->
         return false
     )
 
-    #$('#overlay').on 'click', start
-    start()
+    $('#overlay').on 'click', start
