@@ -45,7 +45,7 @@ toggleFullscreen = ->
 Settings = Settings ? {
     el: '#cameralist',
     css: {
-        blackwhite: false
+        blackwhite: true
     }
     cycle: {
             interval: 15*1000,
@@ -188,12 +188,12 @@ class AppBigBrother extends Backbone.View
 
     initialize: (@settings) ->
         @cam_one = CAMFEEDS.pickSemiRandom()
-        @cam_two = CAMFEEDS.pickSemiRandom()
+        #@cam_two = CAMFEEDS.pickSemiRandom()
 
 
     start: =>
         @appendCamera( @cam_one  )
-        @appendCamera( @cam_two )
+        #@appendCamera( @cam_two )
         @render()
 
     setAutoCycle: =>
@@ -205,9 +205,9 @@ class AppBigBrother extends Backbone.View
         , Settings.cycle.offset)
 
         # Cycle camera 1
-        setInterval( =>
-            @cycleCamera(1)
-        , Settings.cycle.interval)
+        #setInterval( =>
+        #    @cycleCamera(1)
+        #, Settings.cycle.interval)
 
     appendCamera: (camera_stream) ->
         cam = new Camera model: camera_stream
