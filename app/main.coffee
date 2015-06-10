@@ -48,7 +48,7 @@ Settings = Settings ? {
         blackwhite: true
     }
     cycle: {
-            interval: 15*1000,
+            interval: 20*1000,
             offset: 7000
     },
     camfeed: {
@@ -310,7 +310,7 @@ jQuery ->
     Mousetrap.bind([' ','enter'], =>
         start() if not (window.app.started)
     )
-    Mousetrap.bind(['ctrl+f','command+f'], =>
+    Mousetrap.bind(['f','ctrl+f','command+f'], =>
         toggleFullscreen()
         return false
     )
