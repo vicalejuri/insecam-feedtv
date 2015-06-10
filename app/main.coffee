@@ -246,6 +246,9 @@ class AppBigBrother extends Backbone.View
                 CAMFEEDS.setRandomProbability( cam.model, 0.0 )
                 window.app.cycleCamera(cam_idx)
         )
+
+        return
+
         ###
         setTimeout( =>
                 return if cam.loaded? and cam.loaded
