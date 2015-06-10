@@ -130,6 +130,7 @@ class Camera extends Backbone.View
 
     autoRefresh: =>
         return if @refresh_handle?
+
         # Refresh if it's image and not a fucking .mjpg stream
         if not @model.get('uri').endsWith('.mjpg')
             @refresh_handle = setInterval( @refreshImage, 1000/ Settings.camfeed.fps )
@@ -245,7 +246,7 @@ class AppBigBrother extends Backbone.View
         $(@el).html()
 
 start = ->
-    #toggleFullscreen()
+    toggleFullscreen()
     window.app.setAutoCycle()
 
     $('body').addClass('nocursor');
@@ -288,5 +289,5 @@ jQuery ->
         return false
     )
 
-    #$('#overlay').on 'click', start
-    $('#overlay').hide()
+    $('#overlay').on 'click', start
+    #$('#overlay').hide()
