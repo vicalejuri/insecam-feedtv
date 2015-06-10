@@ -288,4 +288,5 @@ jQuery ->
         return false
     )
 
-    $('#overlay').on 'click', start
+    #$('#overlay').on 'click', start
+    $('#overlay').hide()
