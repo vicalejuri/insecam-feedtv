@@ -152,10 +152,11 @@ class Camera extends Backbone.View
         $(@el).html( @template( @model.toJSON() ) )
         $(@el).addClass('blackwhite') if(Settings.css.blackwhite)
 
+        loaded_ok = false
         # Load Ok, show image
         $('img',@el).one('load', =>
-            #@autoRefresh()
             $('img',@el).addClass('visible')
+            loaded_ok = true
 
         # Ops, error on this image. Let's cycle
         # And avoid showing it again!
@@ -164,6 +165,12 @@ class Camera extends Backbone.View
             #CAMFEEDS.setRandomProbability( @model, 0 );
             #@cycle(  CAMFEEDS.pickSemiRandom( ) )
         ).attr('src', @model.get('uri'))
+
+        setTimeout( =>
+            return if loaded_ok
+            loaded_ok = true
+            $('img',@el).addClass('visible')
+        , 3000 )
 
         return @
 
