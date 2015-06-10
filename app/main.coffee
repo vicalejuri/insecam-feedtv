@@ -222,13 +222,14 @@ class AppBigBrother extends Backbone.View
 
         console.group("cyclecamera","Cycling camera #{camera_idx} to #{cam_data.get('uri')}")
         cam.preload( cam_data ,  =>
+
                 # OK
                 console.log("Feed #{cam_data.get('uri')} preloaded correctly. Hiding the current camera(#{camera_idx}), and showing the next")
-                cam.cycle(cam_data)
                 cam.hidePhoto( =>
                     cam.cycle(cam_data)
                     console.groupEnd("cyclecamera")
                 )
+
             # FAIL
             # Ops, error on this image. Let's cycle
             # And avoid showing it again!
