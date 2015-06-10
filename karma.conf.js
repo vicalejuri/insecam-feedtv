@@ -11,11 +11,13 @@ module.exports = function(config){
       'app/bower_components/underscore/underscore.js',
       'app/bower_components/backbone/backbone.js',
       'app/bower_components/eventEmitter/EventEmitter.js',
+      'app/bower_components/backbone-localstorage/backbone-localstorage.js',
       'app/bower_components/eventie/eventie.js',
       'app/bower_components/imagesloaded/imagesloaded.js',
       'app/bower_components/chance/chance.js',
       'app/bower_components/dat.gui/dat.gui.js',
       'app/bower_components/mousetrap/mousetrap.js',
+      'app/bower_components/Backbone.localStorage/backbone.localStorage.js',
       // endbower
       '.dev/main.js',
       'app/**/*.spec.coffee',
