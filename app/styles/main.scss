@@ -73,18 +73,23 @@ video {
     -webkit-filter: blur(8px) contrast(150%) brightness(150%);
     -moz-filter: blur(8px) contrast(150%) brightness(150%);
     filter: blur(8px) contrast(150%) brightness(150%);
-
+    -o-filter: blur(8px) contrast(150%) brightness(150%);
+    -ms-filter: blur(8px) contrast(150%) brightness(150%);
 }
 
 .noblur {
     -webkit-filter: blur(0px) contrast(100%) brightness(100%);
     -moz-filter: blur(0) contrast(100%) brightness(100%);
     filter: blur(0px) contrast(100%) brightness(100%);
+    -o-filter: blur(0px) contrast(100%) brightness(100%);
+    -ms-filter: blur(0px) contrast(100%) brightness(100%);
 }
 
 .blackwhite {
     -webkit-filter: grayscale(100%) contrast(120%);
     -moz-filter: grayscale(100%) contrast(120%);
+    -o-filter: grayscale(100%) contrast(120%);
+    -ms-filter:grayscale(100%) contrast(120%);
     filter: grayscale(100%) contrast(120%);
 }
 
@@ -122,6 +127,9 @@ video {
             -webkit-filter: contrast(100%);
             -moz-filter: contrast(100%);
             filter: contrast(100%);
+            -o-filter: contrast(100%);
+            -ms-filter: contrast(100%);
+
 
             &.visible {
                 opacity: 1;
