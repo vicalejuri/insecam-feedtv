@@ -133,14 +133,15 @@ class Camera extends Backbone.View
 
         # Refresh if it's image and not a fucking .mjpg stream
         if not @model.get('uri').endsWith('.mjpg')
+            console.log(@model.get('uri'))
             @refresh_handle = setInterval( @refreshImage, 1000/ Settings.camfeed.fps )
             console.log("refresh camera handle: #{@refresh_handle}")
 
     preload: (new_feed, ok_cb, fail_cb) =>
         $("<img/>")
-            .on('load', =>
+            .one('load', =>
                 ok_cb(@)
-            ).on('error', =>
+            ).one('error', =>
                 fail_cb(@)
             ).attr('src', new_feed.get('uri'))
 
@@ -150,14 +151,15 @@ class Camera extends Backbone.View
         $(@el).addClass('blackwhite') if(Settings.css.blackwhite)
 
         # Load Ok, show image
-        $('img',@el).on('load', =>
-            @autoRefresh()
+        $('img',@el).one('load', =>
+            #@autoRefresh()
             $('img',@el).addClass('visible')
 
         # Ops, error on this image. Let's cycle
         # And avoid showing it again!
-        ).on('error', =>
+        ).one('error', =>
             console.log("Failed loading #{@model.get('uri')}")
+            console.dir(@model)
             CAMFEEDS.setRandomProbability( @model, 0 );
             @cycle(  CAMFEEDS.pickSemiRandom( ) )
         ).attr('src', @model.get('uri'))
@@ -226,8 +228,8 @@ class AppBigBrother extends Backbone.View
                 # OK
                 console.log("Feed #{cam_data.get('uri')} preloaded correctly. Hiding the current camera(#{camera_idx}), and showing the next")
                 cam.hidePhoto( =>
-                    cam.cycle(cam_data)
                     console.groupEnd("cyclecamera")
+                    cam.cycle(cam_data)
                 )
 
             # FAIL

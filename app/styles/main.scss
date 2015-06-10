@@ -102,8 +102,10 @@ video {
         max-width: 100%;
 
         margin: auto;
-        max-height: 720px;
-        min-height: 360px;
+        /*
+         * max-height: 720px;
+         * min-height: 360px;
+         */
 
         .is-loading img,
         li.is-broken img {
@@ -114,6 +116,7 @@ video {
             width: 100%;
             @include autocenter;
             @include transition;
+            position: relative;
             opacity: 0;
 
             -webkit-filter: contrast(100%);
