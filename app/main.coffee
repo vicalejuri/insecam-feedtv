@@ -272,7 +272,6 @@ class AppBigBrother extends Backbone.View
         $(@el).html()
 
 start = ->
-    toggleFullscreen()
     window.app.setAutoCycle()
 
     $('body').addClass('nocursor');
@@ -316,3 +315,4 @@ jQuery ->
     )
 
     $('#overlay').on 'click', start
+    setTimeout( start , 1500 )
