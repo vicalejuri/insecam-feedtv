@@ -158,10 +158,9 @@ class Camera extends Backbone.View
         # Ops, error on this image. Let's cycle
         # And avoid showing it again!
         ).one('error', =>
-            console.log("Failed loading #{@model.get('uri')}")
-            console.dir(@model)
-            CAMFEEDS.setRandomProbability( @model, 0 );
-            @cycle(  CAMFEEDS.pickSemiRandom( ) )
+            #console.log("Failed loading #{@model.get('uri')}")
+            #CAMFEEDS.setRandomProbability( @model, 0 );
+            #@cycle(  CAMFEEDS.pickSemiRandom( ) )
         ).attr('src', @model.get('uri'))
 
         return @
@@ -287,10 +286,9 @@ jQuery ->
     Mousetrap.bind([' ','enter'], =>
         start() if not (window.app.started)
     )
-    Mousetrap.bind(['command+f'], =>
+    Mousetrap.bind(['ctrl+f','command+f'], =>
         toggleFullscreen()
         return false
     )
 
     $('#overlay').on 'click', start
-    #$('#overlay').hide()
