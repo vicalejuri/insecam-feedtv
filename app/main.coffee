@@ -71,17 +71,17 @@ class CameraFeeds extends Backbone.Collection
     localStorage: new Store('CameraFeeds')
     historyWeight: []
 
-    add: (models, opts) ->
+    add: (models, opts) =>
         @historyWeight.push 1
         Backbone.Collection.prototype.add.call(@, models,opts)
         @trigger('added', models)
 
-    pickRandom: ->
+    pickRandom: =>
         rand = chance.pick( @models )
         return rand
 
     # pick a camera, avoiding already used cameras
-    pickSemiRandom: ->
+    pickSemiRandom: =>
         # Use random with @historyWeight
         next_cam = chance.weighted( @models , @historyWeight )
 
@@ -93,8 +93,10 @@ class CameraFeeds extends Backbone.Collection
 
         return next_cam
 
-    setRandomProbability: ( cam , prob) ->
+    setRandomProbability: ( cam , prob) =>
         cam_idx = @models.indexOf(cam)
+        #console.log(cam)
+        #console.log(@models)
         console.log("RANDOM: feed #{cam_idx}:#{cam.get('city')} = #{prob}%")
         @historyWeight[cam_idx] = prob
 
@@ -226,10 +228,13 @@ class AppBigBrother extends Backbone.View
 
                 # OK
                 console.log("Feed #{cam_data.get('uri')} preloaded correctly. Hiding the current camera(#{camera_idx}), and showing the next")
+                cam.loaded = true
+
                 cam.hidePhoto( =>
-                    console.groupEnd("cyclecamera")
+                    console.log("Foto hidden correctly")
                     cam.cycle(cam_data)
                 )
+                console.groupEnd("cyclecamera")
 
             # FAIL
             # Ops, error on this image. Let's cycle
@@ -238,11 +243,20 @@ class AppBigBrother extends Backbone.View
                 cam_idx = camera_idx
                 console.error( "Cam #{cam_idx}:" , cam.model.get('uri') , ' - ERROR')
 
-                console.groupEnd("cyclecamera")
-
-                CAMFEEDS.setRandomProbability( cam.model, 0 )
+                CAMFEEDS.setRandomProbability( cam.model, 0.0 )
                 window.app.cycleCamera(cam_idx)
         )
+        ###
+        setTimeout( =>
+                return if cam.loaded? and cam.loaded
+
+                cam_idx = camera_idx
+                console.error( "Cam #{cam_idx}:" , cam.model.get('uri') , ' - TIMEOUT')
+
+                CAMFEEDS.setRandomProbability( cam.model, 0.0 )
+                window.app.cycleCamera(cam_idx)
+        , 3000 )
+        ###
 
     render: ->
         $(@el).html()
