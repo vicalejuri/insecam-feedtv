@@ -98,13 +98,13 @@ video {
  * feed is a container where the video feed is
  */
 .feed-box {
-    width: 95%;
+    width: 100%;
     margin: auto;           // margin align center
     text-align: center;
 
     .feed-stream {
         position: relative;
-        max-width: 80%;
+        max-width: 100%;
 
         margin: auto;
         /*
