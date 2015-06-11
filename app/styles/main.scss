@@ -118,13 +118,15 @@ video {
         }
 
         > img {
+
+            background-image: url('http://66.128.169.107:80/SnapshotJPEG?Resolution=640x480&Quality=Clarity');
+            width: 640px;
+
             width: 100%;
             @include autocenter;
             @include transition;
             position: relative;
             opacity: 1;
-
-            background-image: url('http://66.128.169.107:80/SnapshotJPEG?Resolution=640x480&Quality=Clarity');
 
             -webkit-filter: contrast(100%);
             -moz-filter: contrast(100%);
