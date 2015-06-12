@@ -126,7 +126,7 @@ video {
             @include autocenter;
             @include transition;
             position: relative;
-            opacity: 1;
+            opacity: 0;
 
             -webkit-filter: contrast(100%);
             -moz-filter: contrast(100%);
